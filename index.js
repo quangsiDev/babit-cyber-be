@@ -3,12 +3,19 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const pool = require("./db");
+const { sequelize } = require("./models");
 // middleware
 app.use(cors());
 app.use(express.json());
-
 //Routes
-
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Connection has been established successfully.");
+  })
+  .catch((err) => {
+    console.error("Unable to connect to the database:", err);
+  });
 //create a todo
 app.post("/todos", async (req, res) => {
   console.log(req.body);
